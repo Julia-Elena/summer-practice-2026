@@ -1,6 +1,6 @@
 from Application import app
 import configparser
-import pymongo
+import pymongo # type: ignore
 from flask import jsonify
 from ..database.models import User
 

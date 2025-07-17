@@ -1,4 +1,4 @@
-from mongoengine.errors import NotUniqueError
+from mongoengine.errors import NotUniqueError # type: ignore
 from Application.database.models import User
 
 def insert_user(body):

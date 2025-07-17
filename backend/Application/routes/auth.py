@@ -1,15 +1,15 @@
 import configparser
 from functools import wraps
 
-from bcrypt import hashpw
+from bcrypt import hashpw # type: ignore
 from Application import app
-from flask import jsonify, make_response, request
-import jwt
+from flask import jsonify, make_response, request # type: ignore
+import jwt # type: ignore
 
 from Application.database.models import User
 from datetime import datetime, timedelta
-from flask_jwt_extended import JWTManager, create_access_token
-import bcrypt
+from flask_jwt_extended import JWTManager, create_access_token # type: ignore
+import bcrypt # type: ignore
 from Application.scripts.utils import insert_user
 
 secret = configparser.ConfigParser()

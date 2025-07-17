@@ -1,9 +1,9 @@
 
-from flask import Flask
+from flask import Flask # type: ignore
 from .database.db import initialize_db
-from flask_cors import CORS
+from flask_cors import CORS # type: ignore
 import configparser
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.background import BackgroundScheduler # type: ignore
 from datetime import datetime, timedelta
 import time
 from .scripts.toggle import power_off_devices, power_on_devices
