@@ -6,15 +6,20 @@ Welcome to Nokia Summer Practice 2026. This is the project starting point, from 
 
 ### Backend
 
-- Python 3
-- Flask
-- Mongo DB
+- Python 3 ([download](https://www.python.org/downloads/)) ([docs](https://docs.python.org/3/))
+- Flask ([docs](https://flask.palletsprojects.com/en/stable/))
+- Mongo DB ([download](https://www.mongodb.com/try/download/community))
 
 ### Frontend
 
-- React - web framework
-- Vite - bundler and build system
-- Material UI - UI/UX framework
+- React - web framework ([learn](https://react.dev/learn)) ([docs](https://react.dev/reference/react))
+- Vite - bundler and build system ([guide](https://vite.dev/guide/))
+- Material UI - UI/UX framework ([docs](https://mui.com/material-ui/getting-started/))
+
+### Tests
+
+- Robot Framework ([docs](https://docs.robotframework.org/))
+- RF Browser Library ([docs](https://robotframework-browser.org/))
 
 ## Get Started
 
@@ -22,7 +27,7 @@ Welcome to Nokia Summer Practice 2026. This is the project starting point, from 
 
 - Install Python 3.10 or newer
 - Install Node.js v22 or newer
-- Install Mongo DB local server
+- Install Mongo DB Community server
 
 ### Backend
 
@@ -68,4 +73,13 @@ $ npm run dev
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
   ➜  press h + enter to show help
+```
+
+### Tests
+
+Install Robot Framework and Browser Library:
+
+```sh
+$ pip install robotframework robotframework-browser
+$ rfbrowser init
 ```
