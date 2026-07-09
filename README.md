@@ -46,12 +46,16 @@ If you're on Linux, Git is most likely already installed. For Mac OS, install Xc
 - Install Node.js v22 or newer ([download](https://nodejs.org/en/download))
 - Install Mongo DB Community server ([download](https://www.mongodb.com/try/download/community))
 
-### Clone the repo
+### Fork and clone the repo
 
-Clone this repository using Git into your workspace folder of choice:
+First, create a fork of this repository into your GitHub account, by either clicking the `Fork` button at the top right corner of the page, or by using the following link:
+
+[Create a fork](https://github.com/RaduTek/summer-practice-2026/fork)
+
+Then, clone this repository using Git into your workspace folder of choice:
 
 ```sh
-$ git clone https://github.com/RaduTek/summer-practice-2026
+$ git clone https://github.com/[your username here]/summer-practice-2026
 ```
 
 ### Backend
