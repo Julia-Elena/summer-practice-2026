@@ -1,5 +1,6 @@
 from bson.objectid import ObjectId
 from mongoengine import *
+from datetime import datetime
 
 class User(Document):
     name = StringField(required=True)
@@ -39,3 +40,18 @@ class DailySaving(EmbeddedDocument):
 class Saving(Document):
     deviceName = StringField(required=True, unique=True)
     log = EmbeddedDocumentListField(DailySaving)
+
+
+class Schedule(Document):
+    deviceId = ObjectIdField(required=True)
+    deviceName = StringField(required=False)
+    startDate = StringField(required=True)  # format: "YYYY-MM-DD"
+    endDate = StringField(required=False)  # format: "YYYY-MM-DD", optional
+    powerOnTime = StringField(required=True)  # format: "HH:MM"
+    powerOffTime = StringField(required=True)  # format: "HH:MM"
+    recurrence = StringField(required=True, choices=['workdays', 'everyday', 'weekends'])
+    active = BooleanField(default=True)
+    createdAt = DateTimeField(default=datetime.now)
+    updatedAt = DateTimeField(default=datetime.now)
+    
+    meta = {'collection': 'schedules'}

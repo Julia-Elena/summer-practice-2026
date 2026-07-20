@@ -19,6 +19,7 @@ import {
 } from "material-react-table";
 import AddDeviceForm from "../components/AddDeviceForm";
 import PageHeader from "../components/PageHeader";
+import ScheduleDialog from "../components/ScheduleDialog";
 
 const DeviceTable = () => {
 	const [devices, setDevices] = useState([]);
@@ -26,8 +27,8 @@ const DeviceTable = () => {
 	const [isScheduleDialogOpen, setIsScheduleDialogOpen] = useState(false);
 	const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
 	const [deviceToDelete, setDeviceToDelete] = useState(null);
-	const [selectedAction, setSelectedAction] = useState(null);
 	const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+	const [deviceToEdit, setDeviceToEdit] = useState(null);
 
 	const fetchDevices = async () => {
 		try {
@@ -49,12 +50,10 @@ const DeviceTable = () => {
 	const handleScheduleOpen = (device) => {
 		setSelectedDevice(device);
 		setIsScheduleDialogOpen(true);
-		setSelectedAction("schedule");
 	};
 
 	const handleScheduleClose = () => {
 		setIsScheduleDialogOpen(false);
-		setSelectedAction(null);
 		setSelectedDevice(null);
 	};
 
@@ -64,7 +63,7 @@ const DeviceTable = () => {
 				handleScheduleOpen(device);
 				break;
 			case "edit":
-				// Handle edit action
+				handleEditOpen(device);
 				break;
 			case "remove":
 				handleRemoveOpen(device);
@@ -72,6 +71,16 @@ const DeviceTable = () => {
 			default:
 				break;
 		}
+	};
+
+	const handleEditOpen = (device) => {
+		setDeviceToEdit(device);
+		setIsAddDialogOpen(true);
+	};
+
+	const handleEditClose = () => {
+		setIsAddDialogOpen(false);
+		setDeviceToEdit(null);
 	};
 
 	const handleRemoveOpen = (device) => {
@@ -194,32 +203,20 @@ const DeviceTable = () => {
 		],
 	});
 
-	const handlePerformAction = async () => {
-		if (!selectedDevice) return;
-		try {
-			switch (selectedAction) {
-				case "schedule":
-					// Perform schedule action with selectedDevice._id
-					console.log(`Scheduled action for device ${selectedDevice._id}`);
-					break;
-				case "edit":
-					// Perform edit action with selectedDevice._id
-					break;
-				default:
-					break;
-			}
-			handleScheduleClose();
-		} catch (error) {
-			console.error("Error performing action:", error);
+	const handleAddDialogOpen = () => {
+		if (deviceToEdit) {
+			handleEditOpen(deviceToEdit);
+		} else {
+			setIsAddDialogOpen(true);
 		}
 	};
 
-	const handleAddDialogOpen = () => {
-		setIsAddDialogOpen(true);
-	};
-
 	const handleAddDialogClose = () => {
-		setIsAddDialogOpen(false);
+		if (deviceToEdit) {
+			handleEditClose();
+		} else {
+			setIsAddDialogOpen(false);
+		}
 	};
 
 	const handleAddDeviceSuccess = () => {
@@ -230,19 +227,13 @@ const DeviceTable = () => {
 		<Container maxWidth={false} disableGutters>
 			<PageHeader title="Devices" breadcrumbItems={["Home", "Devices"]} />
 			<MaterialReactTable table={table} />
-			<Dialog open={isScheduleDialogOpen} onClose={handleScheduleClose}>
-				<DialogTitle>Schedule Action</DialogTitle>
-				<DialogContent>
-					{/* Add content for scheduling here */}
-					Schedule dialog content...
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleScheduleClose}>Cancel</Button>
-					<Button onClick={handlePerformAction} color="primary">
-						Schedule
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<ScheduleDialog
+				open={isScheduleDialogOpen}
+				device={selectedDevice}
+				deviceId={getDeviceId(selectedDevice)}
+				onClose={handleScheduleClose}
+				onSave={handleScheduleClose}
+			/>
 			<Dialog open={isRemoveDialogOpen} onClose={handleRemoveClose}>
 				<DialogTitle>Confirm Device Removal</DialogTitle>
 				<DialogContent>
@@ -263,6 +254,9 @@ const DeviceTable = () => {
 				open={isAddDialogOpen}
 				onClose={handleAddDialogClose}
 				onSuccess={handleAddDeviceSuccess}
+				mode={deviceToEdit ? "edit" : "add"}
+				initialData={deviceToEdit}
+				deviceId={getDeviceId(deviceToEdit)}
 			/>
 		</Container>
 	);

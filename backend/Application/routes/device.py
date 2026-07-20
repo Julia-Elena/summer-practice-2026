@@ -45,9 +45,11 @@ def edit_device(device_id):
         device = Device.objects(id=object_id).first()
         if device:
             device_data = request.get_json()
+            device_data.pop('_id', None)
             device.update(**device_data)
             return jsonify({'message': 'Device updated successfully'}), 200
         else:
             return jsonify({'error': 'Device not found'}), 404
     except Exception as e:
+        print(e)
         return jsonify({'error': str(e)}), 500
