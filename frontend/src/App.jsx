@@ -7,28 +7,35 @@ import AddDeviceForm from "./components/AddDeviceForm";
 import ManageUsers from "./pages/ManageUsers";
 import Profile from "./pages/Profile";
 import { SidebarLayout } from "./pages/SidebarLayout";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 import { CssBaseline } from "@mui/material";
 
 function App() {
-    return (
-        <>
-            <CssBaseline />
-            <BrowserRouter>
-                <Routes>
-                    <Route element={<SidebarLayout />}>
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/devices" element={<Devices />} />
-                        <Route path="/add-device" element={<AddDeviceForm />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/manage-users" element={<ManageUsers />} />
-                    </Route>
-                    <Route path="/" element={<Login />} />
-                    <Route path="login" element={<Login />} />
-                </Routes>
-            </BrowserRouter>
-        </>
-    );
+	return (
+		<>
+			<CssBaseline />
+			<BrowserRouter>
+				<Routes>
+					<Route
+						element={
+							<ProtectedRoute>
+								<SidebarLayout />
+							</ProtectedRoute>
+						}
+					>
+						<Route path="/home" element={<Home />} />
+						<Route path="/dashboard" element={<Dashboard />} />
+						<Route path="/devices" element={<Devices />} />
+						<Route path="/add-device" element={<AddDeviceForm />} />
+						<Route path="/profile" element={<Profile />} />
+						<Route path="/manage-users" element={<ManageUsers />} />
+					</Route>
+					<Route path="/" element={<Login />} />
+					<Route path="login" element={<Login />} />
+				</Routes>
+			</BrowserRouter>
+		</>
+	);
 }
 
 export default App;
