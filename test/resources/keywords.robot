@@ -35,9 +35,9 @@ Attempt Login
 Check Logged In
     [Documentation]
     ...    Check that the user is logged in (sidebar menu options are visible)
-    Wait For Elements State    a:has-text("Home")
-    Wait For Elements State    a:has-text("Profile")
-    Wait For Elements State    button:has-text("Logout")
+    Wait For Elements State    span:has-text("Home")
+    Wait For Elements State    span:has-text("Dashboard")
+    Wait For Elements State    span:has-text("Devices")
 
 Load Project and Login
     [Documentation]
@@ -51,29 +51,37 @@ Go To Page
     [Arguments]
     ...    ${page}
     
-    Click    a:has-text("${page}")
+    Click    span:has-text("${page}")
 
 Add New Device
     [Documentation]
     ...    Add a new device (must already be on the Devices page)
     [Arguments]
     ...    ${name}
+    ...    ${serial_number}
+    ...    ${device_type}
+    ...    ${hardware_type}
+    ...    ${site}
     ...    ${group}
-    ...    ${on_time}
-    ...    ${off_time}
-    ...    ${count}
-    ...    ${consumption}
+    ...    ${owner}
+    ...    ${ip_address}
+    ...    ${port}
+    ...    ${connectivity_type}
     
     Wait For Elements State    "Add New Device"
 
     Fill Text    ((//form)[1]//input)[1]    ${name}
-    Fill Text    ((//form)[1]//input)[2]    ${group}
-    Fill Text    ((//form)[1]//input)[3]    ${on_time}
-    Fill Text    ((//form)[1]//input)[4]    ${off_time}
-    Fill Text    ((//form)[1]//input)[5]    ${count}
-    Fill Text    ((//form)[1]//input)[6]    ${consumption}
+    Fill Text    ((//form)[1]//input)[2]    ${serial_number}
+    Fill Text    ((//form)[1]//input)[3]    ${device_type}
+    Fill Text    ((//form)[1]//input)[4]    ${hardware_type}
+    Fill Text    ((//form)[1]//input)[5]    ${site}
+    Fill Text    ((//form)[1]//input)[6]    ${group}
+    Fill Text    ((//form)[1]//input)[7]    ${owner}
+    Fill Text    ((//form)[1]//input)[8]    ${ip_address}
+    Fill Text    ((//form)[1]//input)[9]    ${port}
+    Fill Text    ((//form)[1]//input)[10]   ${connectivity_type}
 
-    Click    button:has-text("Add Device")
+    Click    button:has-text("Submit")
 
     Wait For Elements State    "Device added successfully!"
 
@@ -82,13 +90,17 @@ Check Device Info
     ...    Check device information for given name in the devices table
     [Arguments]
     ...    ${name}
+    ...    ${serial_number}
+    ...    ${device_type}
+    ...    ${hardware_type}
+    ...    ${site}
     ...    ${group}
-    ...    ${on_time}
-    ...    ${off_time}
-    ...    ${count}
-    ...    ${consumption}
+    ...    ${owner}
+    ...    ${ip_address}
+    ...    ${port}
+    ...    ${connectivity_type}
     
-    @{expected_values}    Create List    ${group}    ${on_time}    ${off_time}    ${count}    ${consumption}
+    @{expected_values}    Create List    ${name}    ${serial_number}    ${device_type}    ${hardware_type}    ${site}    ${group}    ${owner}    ${ip_address}    ${port}    ${connectivity_type}
 
     ${rows}=    Get Elements    css=table.MuiTable-root tbody > tr
 
@@ -176,16 +188,24 @@ Edit Device
     [Arguments]
     ...    ${name}
     ...    ${newName}=${EMPTY}
-    ...    ${group}=${EMPTY}
-    ...    ${on_time}=${EMPTY}
-    ...    ${off_time}=${EMPTY}
-    ...    ${count}=${EMPTY}
-    ...    ${consumption}=${EMPTY}
     
     Click Device Option    ${name}    Edit
 
     IF    "${newName}" != "${EMPTY}"
-        Fill Text    ((//div)[contains(@class, 'MuiDialogContent-root')]//input)[1]    ${newName}
+        Fill Text    xpath=//div[contains(@class, 'MuiFormControl-root')][.//*[text()='Device Name']]//input    ${newName}
+    ELSE
+        Click    button:has-text("Cancel")
     END
 
-    Click    button:has-text("Update")
+    Click    button:has-text("Submit")
+
+Remove Device
+    [Documentation]
+    ...    Remove a given device from the devices table
+    [Arguments]
+    ...    ${name}
+
+    Click Device Option    ${name}    Remove
+
+    Wait For Elements State    text=Confirm Device Removal
+    Click    button:has-text("Remove")
