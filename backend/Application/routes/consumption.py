@@ -14,11 +14,10 @@ def get_consumption():
         date_today = datetime.datetime.now()
         start_of_week = date_today - datetime.timedelta(days=date_today.weekday())
         end_of_week = start_of_week + datetime.timedelta(days=6)
-        # Convert to string format ("YYYY-MM-DD") to perfectly match your database values
+        
         end_of_week_str = end_of_week.strftime("%Y-%m-%d")
         start_of_week_str = start_of_week.strftime("%Y-%m-%d")
 
-        # FIX 1: Fetch schedules that started ANYTIME on or before the end of this week, and are active
         filtered_schedules = Schedule.objects(
             Q(deviceId__in=[device.id for device in devices]) &
             Q(active=True) &
@@ -34,7 +33,7 @@ def get_consumption():
         for i in range(7):
             
             day = start_of_week + datetime.timedelta(days=i)
-   
+    
             usage = 0
             saved=0
             for schedule in filtered_schedules:

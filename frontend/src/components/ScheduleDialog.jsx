@@ -233,7 +233,6 @@ const ScheduleDialog = ({
 
 			console.log(json_body);
 
-			// Always POST to /api/schedule - backend will handle create vs update based on deviceId
 			const response = await fetch("/api/schedule", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
